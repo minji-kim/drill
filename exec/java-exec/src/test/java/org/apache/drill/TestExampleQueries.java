@@ -27,6 +27,7 @@ import org.apache.drill.common.util.FileUtils;
 import org.apache.drill.common.util.TestTools;
 import org.apache.drill.exec.ExecConstants;
 import org.apache.drill.exec.compile.ClassTransformer;
+import org.apache.drill.exec.proto.UserBitShared;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -1193,6 +1194,12 @@ public class TestExampleQueries extends BaseTestQuery {
         .baselineValues("1930-01-08")
         .build()
         .run();
+  }
+
+  @Test
+  public void testTimestampadd() throws Exception {
+    String query = "select TIMESTAMPADD(SQL_TSI_MONTH, 1, birth_date) as mydate from cp.`employee.json`";
+    testRunAndPrint(UserBitShared.QueryType.SQL, query);
   }
 
 }

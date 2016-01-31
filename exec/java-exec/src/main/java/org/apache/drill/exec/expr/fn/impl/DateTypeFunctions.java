@@ -37,6 +37,7 @@ import org.apache.drill.exec.expr.holders.TimeHolder;
 import org.apache.drill.exec.expr.holders.TimeStampHolder;
 import org.apache.drill.exec.expr.holders.VarCharHolder;
 import org.apache.drill.exec.ops.ContextInformation;
+import org.apache.drill.exec.proto.CoordinationProtos;
 
 public class DateTypeFunctions {
 
@@ -154,6 +155,131 @@ public class DateTypeFunctions {
                                                             (int)inputSeconds.value,
                                                             (int)inputMilliSeconds.value,
                                                             org.joda.time.DateTimeZone.UTC))).getMillis();
+        }
+    }
+
+    @FunctionTemplate(name = "SQL_TSI_FRAC_SECOND", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class SQLTSIFRACSECOND implements DrillSimpleFunc {
+        @Output BigIntHolder out;
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = 1111;
+        }
+    }
+
+    @FunctionTemplate(name = "SQL_TSI_SECOND", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class SQLTSISECOND implements DrillSimpleFunc {
+        @Output BigIntHolder out;
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = 2222;
+        }
+    }
+
+    @FunctionTemplate(name = "SQL_TSI_MINUTE", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class SQLTSIMINUTE implements DrillSimpleFunc {
+        @Output BigIntHolder out;
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = 3333;
+        }
+    }
+
+    @FunctionTemplate(name = "SQL_TSI_DAY", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class SQLTSIDAY implements DrillSimpleFunc {
+        @Output BigIntHolder out;
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = 4444;
+        }
+    }
+
+    @FunctionTemplate(name = "SQL_TSI_MONTH", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class SQLTSIMONTH implements DrillSimpleFunc {
+        @Output BigIntHolder out;
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = 5555;
+        }
+    }
+
+    @FunctionTemplate(name = "SQL_TSI_QUARTER", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class SQLTSIQUARTER implements DrillSimpleFunc {
+        @Output BigIntHolder out;
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = 6666;
+        }
+    }
+
+
+    @FunctionTemplate(name = "SQL_TSI_YEAR", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class SQLTSIYEAR implements DrillSimpleFunc {
+        @Output BigIntHolder out;
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = 7777;
+        }
+    }
+
+    @FunctionTemplate(name = "timestampadd", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class TimeStampAddFunction implements DrillSimpleFunc {
+        @Param BigIntHolder sqlTSI;
+        @Param BigIntHolder toAdd;
+        @Param TimeStampHolder timestamp;
+        @Output TimeStampHolder out;
+
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = timestamp.value;
+        }
+    }
+
+    @FunctionTemplate(name = "timestampdiff", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class TimeStampDiffFunction implements DrillSimpleFunc {
+        @Param BigIntHolder toSubstract;
+        @Param TimeStampHolder timestamp;
+        @Output TimeStampHolder out;
+
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = timestamp.value;
         }
     }
 
