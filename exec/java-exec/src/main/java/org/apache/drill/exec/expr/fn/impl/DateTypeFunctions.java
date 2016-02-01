@@ -197,6 +197,20 @@ public class DateTypeFunctions {
         }
     }
 
+    @FunctionTemplate(name = "SQL_TSI_HOUR", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
+    public static class SQLTSIHOUR implements DrillSimpleFunc {
+        @Output BigIntHolder out;
+        @Override
+        public void setup() {
+        }
+
+        @Override
+        public void eval() {
+            out.value = 4444;
+        }
+    }
+
+
     @FunctionTemplate(name = "SQL_TSI_DAY", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
     public static class SQLTSIDAY implements DrillSimpleFunc {
         @Output BigIntHolder out;
@@ -206,7 +220,7 @@ public class DateTypeFunctions {
 
         @Override
         public void eval() {
-            out.value = 4444;
+            out.value = 5555;
         }
     }
 
@@ -219,7 +233,7 @@ public class DateTypeFunctions {
 
         @Override
         public void eval() {
-            out.value = 5555;
+            out.value = 6666;
         }
     }
 
@@ -232,7 +246,7 @@ public class DateTypeFunctions {
 
         @Override
         public void eval() {
-            out.value = 6666;
+            out.value = 7777;
         }
     }
 
@@ -246,7 +260,7 @@ public class DateTypeFunctions {
 
         @Override
         public void eval() {
-            out.value = 7777;
+            out.value = 8888;
         }
     }
 
@@ -263,12 +277,35 @@ public class DateTypeFunctions {
 
         @Override
         public void eval() {
-            out.value = timestamp.value;
+            long curTime = timestamp.value;
+            if (sqlTSI.value == 1111) {
+                curTime += toAdd.value;
+            } else if (sqlTSI.value == 2222) {
+                curTime += (toAdd.value * org.apache.drill.exec.expr.fn.impl.DateUtility.secondsToMillis);
+            } else if (sqlTSI.value == 3333) {
+                curTime += (toAdd.value * org.apache.drill.exec.expr.fn.impl.DateUtility.minutesToMillis);
+            } else if (sqlTSI.value == 4444) {
+                curTime += (toAdd.value * org.apache.drill.exec.expr.fn.impl.DateUtility.hoursToMillis);
+            } else if (sqlTSI.value == 5555) {
+                curTime += (toAdd.value * org.apache.drill.exec.expr.fn.impl.DateUtility.daysToStandardMillis);
+            } else if (sqlTSI.value == 6666) {
+                curTime += (toAdd.value * org.apache.drill.exec.expr.fn.impl.DateUtility.monthsToMillis);
+            } else if (sqlTSI.value == 7777) {
+                curTime += (toAdd.value * org.apache.drill.exec.expr.fn.impl.DateUtility.yearsToMonths
+                        * org.apache.drill.exec.expr.fn.impl.DateUtility.monthsToMillis / 4);
+            } else if (sqlTSI.value == 8888) {
+                curTime += (toAdd.value * org.apache.drill.exec.expr.fn.impl.DateUtility.yearsToMonths
+                        * org.apache.drill.exec.expr.fn.impl.DateUtility.monthsToMillis);
+            } else {
+                throw new UnsupportedOperationException("sqlTSI value " + sqlTSI.value);
+            }
+            out.value = curTime;
         }
     }
 
     @FunctionTemplate(name = "timestampdiff", scope = FunctionTemplate.FunctionScope.SIMPLE, nulls = NullHandling.NULL_IF_NULL)
     public static class TimeStampDiffFunction implements DrillSimpleFunc {
+        @Param BigIntHolder sqlTSI;
         @Param BigIntHolder toSubstract;
         @Param TimeStampHolder timestamp;
         @Output TimeStampHolder out;
@@ -279,7 +316,30 @@ public class DateTypeFunctions {
 
         @Override
         public void eval() {
-            out.value = timestamp.value;
+
+            long curTime = timestamp.value;
+            if (sqlTSI.value == 1111) {
+                curTime -= toSubstract.value;
+            } else if (sqlTSI.value == 2222) {
+                curTime -= (toSubstract.value * org.apache.drill.exec.expr.fn.impl.DateUtility.secondsToMillis);
+            } else if (sqlTSI.value == 3333) {
+                curTime -= (toSubstract.value * org.apache.drill.exec.expr.fn.impl.DateUtility.minutesToMillis);
+            } else if (sqlTSI.value == 4444) {
+                curTime -= (toSubstract.value * org.apache.drill.exec.expr.fn.impl.DateUtility.hoursToMillis);
+            } else if (sqlTSI.value == 5555) {
+                curTime -= (toSubstract.value * org.apache.drill.exec.expr.fn.impl.DateUtility.daysToStandardMillis);
+            } else if (sqlTSI.value == 6666) {
+                curTime -= (toSubstract.value * org.apache.drill.exec.expr.fn.impl.DateUtility.monthsToMillis);
+            } else if (sqlTSI.value == 7777) {
+                curTime -= (toSubstract.value * org.apache.drill.exec.expr.fn.impl.DateUtility.yearsToMonths
+                        * org.apache.drill.exec.expr.fn.impl.DateUtility.monthsToMillis / 4);
+            } else if (sqlTSI.value == 8888) {
+                curTime -= (toSubstract.value * org.apache.drill.exec.expr.fn.impl.DateUtility.yearsToMonths
+                        * org.apache.drill.exec.expr.fn.impl.DateUtility.monthsToMillis);
+            } else {
+                throw new UnsupportedOperationException("sqlTSI value " + sqlTSI.value);
+            }
+            out.value = curTime;
         }
     }
 

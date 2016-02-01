@@ -1198,8 +1198,12 @@ public class TestExampleQueries extends BaseTestQuery {
 
   @Test
   public void testTimestampadd() throws Exception {
-    String query = "select TIMESTAMPADD(SQL_TSI_MONTH, 1, birth_date) as mydate from cp.`employee.json`";
-    testRunAndPrint(UserBitShared.QueryType.SQL, query);
+    String query = "select birth_date, TIMESTAMPADD(SQL_TSI_MONTH, 1, birth_date) as mydate from cp.`employee.json`";
+    test(query);
+
+    query = "select birth_date, TIMESTAMPADD(SQL_TSI_HOUR, 10, birth_date) as mydate from cp.`employee.json`";
+    test(query);
+
   }
 
 }
