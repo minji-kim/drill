@@ -158,7 +158,7 @@ public interface ExecConstants {
   String MONGO_BSON_RECORD_READER = "store.mongo.bson.record.reader";
   OptionValidator MONGO_BSON_RECORD_READER_VALIDATOR = new BooleanValidator(MONGO_BSON_RECORD_READER, true);
 
-  BooleanValidator ENABLE_UNION_TYPE = new BooleanValidator("exec.enable_union_type", false);
+  BooleanValidator ENABLE_UNION_TYPE = new BooleanValidator("exec.enable_union_type", true);
 
   // TODO: We need to add a feature that enables storage plugins to add their own options. Currently we have to declare
   // in core which is not right. Move this option and above two mongo plugin related options once we have the feature.
